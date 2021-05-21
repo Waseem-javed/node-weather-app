@@ -1,0 +1,80 @@
+<%- include('includes/header.ejs') %>
+<link rel="stylesheet" href="/css/main.css" />
+<%- include('includes/navigation.ejs') %>
+
+<div class="container-fluid">
+  <div
+    class="
+      row
+      p-2 p-sm-4
+      col-md-8 col-sm-6 col-lg-6
+      mx-auto
+      d-flex
+      flex-column
+      justify-content-center
+    "
+  >
+    <form
+      action="/search"
+      class="card p-2 shadow-sm bg-dark mb-2"
+      method="POST"
+    >
+      <div class="input-group">
+        <input
+          type="text"
+          name="city"
+          class="form-control"
+          placeholder="Enter City"
+          onkeypress="return /[a-z]/i.test(event.key)"
+        />
+        <div class="input-group-append align-items-center">
+          <div
+            name="loader"
+            hidden
+            class="spinner-border spinner-border ml-2 text-white"
+          ></div>
+          <Button
+            type="submit"
+            name="searchBtn"
+            class="btn btn-outline-success"
+          >
+            Search
+          </Button>
+        </div>
+      </div>
+    </form>
+    <% if(data != ''){ %>
+    <div class="card m-0 p-0">
+      <div class="card-header m-0 p-2">
+        <div class="card-title p-0 m-0">
+          <%= data.name %>
+          <img
+            src="http://openweathermap.org/img/w/<%= data.weather[0].icon %>.png"
+            alt=""
+          />
+          <span class="small"><%= data.weather[0].main %></span>
+        </div>
+      </div>
+      <div class="card-body clearfix m-0 p-2 px-sm-4 justify-content-arround">
+          <div class="float-sm-right">
+            <p><b>Sys : </b><%= data.sys.country %></p>
+            <p><b>Sunrise : </b><%= data.sys.sunrise %></p>
+            <p><b>Sunset : </b><%= data.sys.sunset %></p>
+          </div>
+          <div class="float-sm-left">
+            <p><b>Temperature : </b><%= data.main.temp %></p>
+            <p><b>Feels Like  : </b><%=  data.main.feels_like %></p>
+            <p><b>Pressure : </b><%= data.main.pressure %></p>
+            <p><b>Humidity : </b><%= data.main.humidity %></p>
+            <p><b>Wind Speed : </b><%= data.wind.speed %></p>
+            <p><b>Wind Degree : </b><%= data.wind.deg %></p>
+          </div>
+      </div>
+    </div>
+    <% }else{ %>
+    <h4 class="small text-danger font-weight-bold"><%= msg %></h4>
+    <% } %>
+  </div>
+</div>
+
+<%- include('includes/footer.ejs') %>
